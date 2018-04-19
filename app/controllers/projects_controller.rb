@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: [:show, :update, :destroy]
+  before_action :set_project, only: %I[show update destroy]
 
   # GET /projects
   def index
@@ -15,18 +15,16 @@ class ProjectsController < ApplicationController
 
   # POST /projects
   def create
-    @project = Project.new(project_params)
-
-    if @project.save
+    if Project.build(params['project'])
       render json: @project, status: :created, location: @project
     else
-      render json: @project.errors, status: :unprocessable_entity
+      render json: { error: 'Could not build this project.' }, status: :unprocessable_entity
     end
   end
 
   # PATCH/PUT /projects/1
   def update
-    if @project.update(project_params)
+    if @project.update(params['project'])
       render json: @project
     else
       render json: @project.errors, status: :unprocessable_entity
@@ -39,13 +37,9 @@ class ProjectsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_project
-      @project = Project.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def project_params
-      params.require(:project).permit(:specifier)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_project
+    @project = Project.find(params[:id])
+  end
 end

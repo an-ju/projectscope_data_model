@@ -1,9 +1,9 @@
 class AddForeignKeys < ActiveRecord::Migration[5.1]
   def change
-    add_foreign_key :events, :resources
-    add_foreign_key :configurations, :resources
-    add_foreign_key :resources, :projects
-    add_foreign_key :activities, :projects
-    add_foreign_key :activities, :users
+    add_reference :events, :resource, foreign_key: true
+    add_reference :configurations, :resource, foreign_key: true
+    add_reference :resources, :project, foreign_key: true
+    add_reference :activities, :project, foreign_key: true
+    add_reference :activities, :user, foreign_key: true
   end
 end
