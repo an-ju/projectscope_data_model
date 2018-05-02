@@ -20,10 +20,20 @@ test: &test
   <<: *default
   database: db/test.sqlite3
 
-# TODO: use postgres in production.
+# use postgres in Google Cloud
+# production:
+#  <<: *default
+#  database: db/production.sqlite3
 production:
-  <<: *default
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+  username: "postgres"
+  password: "2eOdI440e7tqKvr7"
+  database: "data-model"
+  host:   "/cloudsql/teamscope-202221:us-central1:teamscope"
+
 
 cucumber:
   <<: *test
