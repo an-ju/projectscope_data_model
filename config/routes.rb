@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :users
   resources :activities
-  resources :projects
+  resources :projects do
+    member do
+      post :events
+    end
+  end
   resources :configurations
   resources :resources
   resources :events
