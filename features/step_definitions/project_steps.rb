@@ -33,8 +33,22 @@ end
 
 Given('the following resources exist') do |resources|
   resources.hashes.each do |r|
-    r['project_id'] = Project.where(specifier: r['project_id']).first
+    r['project_id'] = Project.where(specifier: r['project_id']).first.id
     Resource.create(r)
+  end
+end
+
+Given('the following events exist') do |events|
+  @events = events.hashes.map(&:dup)
+  events.hashes.each do |e|
+    e['project_id'] = Project.where(specifier: e['project_id']).first.id
+    Event.create(e)
+  end
+end
+
+Given('the following users exist') do |users|
+  users.hashes.each do |user|
+    User.create(user)
   end
 end
 
@@ -65,4 +79,19 @@ end
 And /^event (\d+) of (.*) should have priority (\d+)$/ do |id, project, od|
   p = Project.where(specifier: project).first
   expect(p.events[id.to_i - 1].order).to eql(od.to_i)
+end
+
+Given /^I am user "(.*)"$/ do |token|
+  @user_token = token
+end
+
+When /^I get all events for project "(.*)"$/ do |project|
+  p = Project.where(specifier: project).first
+  response = get URI.escape "/projects/#{p.id}/events/?token=#{@user_token}"
+  @resp = response.body
+end
+
+Then /^I should receive all events belong to "(.*)"$/ do |project|
+  events = @events.select { |e| e['project_id'].eql? project }
+  expect(JSON.parse(@resp).length).to eql(events.length)
 end

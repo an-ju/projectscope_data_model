@@ -1,5 +1,5 @@
 class ProjectsController < ApplicationController
-  before_action :set_project, only: %I[show update destroy events]
+  before_action :set_project, only: %I[show update destroy create_events events]
 
   # GET /projects
   def index
@@ -37,8 +37,13 @@ class ProjectsController < ApplicationController
   end
 
   # POST /projects/1/events
-  def events
+  def create_events
     @project.new_event event_type, params
+  end
+
+  # GET /projects/1/events
+  def events
+    render json: @project.events.order(:order)
   end
 
   private

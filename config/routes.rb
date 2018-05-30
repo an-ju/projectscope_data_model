@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   resources :activities
   resources :projects do
     member do
-      post :events
+      post :events, to: 'projects#create_events'
+      get :events, to: 'projects#events'
     end
   end
   resources :configurations
