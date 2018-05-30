@@ -95,3 +95,24 @@ Then /^I should receive all events belong to "(.*)"$/ do |project|
   events = @events.select { |e| e['project_id'].eql? project }
   expect(JSON.parse(@resp).length).to eql(events.length)
 end
+
+Then /^I should receive an authorization error$/ do
+  expect(JSON.parse(@resp)).to have_key('error')
+  expect(JSON.parse(@resp)['error']).to eql('unauthorized user')
+end
+
+Then /^I should see an activity for "(.*)" and "(.*)" at order (\d+)$/ do |user, project, order|
+  uid = User.where(token: user).first.id
+  pid = Project.where(specifier: project).first.id
+  expect(Activity.where(user_id: uid, project_id: pid, event_order: order).count).to eql(1)
+end
+
+Then /^there is an activity for "(.*)" and "(.*)" at order (\d+)$/ do |user, project, order|
+  uid = User.where(token: user).first.id
+  pid = Project.where(specifier: project).first.id
+  Activity.create(user_id: uid, project_id: pid, event_order: order)
+end
+
+Then /^I should receive (\d+) events$/ do |num_events|
+  expect(JSON.parse(@resp).length).to eql(num_events)
+end

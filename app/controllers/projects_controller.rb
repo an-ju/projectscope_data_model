@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: %I[show update destroy create_events events]
+  before_action :set_user, only: %I[events]
 
   # GET /projects
   def index
@@ -38,12 +39,16 @@ class ProjectsController < ApplicationController
 
   # POST /projects/1/events
   def create_events
-    @project.new_event event_type, params
+    @project.create_event event_type, params
   end
 
   # GET /projects/1/events
   def events
-    render json: @project.events.order(:order)
+    if @user.nil?
+      render json: { error: 'unauthorized user' }
+    else
+      render json: @project.new_events(@user)
+    end
   end
 
   private
@@ -62,5 +67,10 @@ class ProjectsController < ApplicationController
     else
       'tracker'
     end
+  end
+
+  # Get user based on the token
+  def set_user
+    @user = User.where(token: params[:token]).first
   end
 end

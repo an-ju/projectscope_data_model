@@ -27,3 +27,19 @@ Feature:
     When I get all events for project "project 1"
     Then I should receive all events belong to "project 1"
 
+  Scenario: Reject request when user is now authorized
+    Given I am user "fake user"
+    When I get all events for project "project 1"
+    Then I should receive an authorization error
+
+  Scenario: Remember user's last activity
+    Given I am user "user 1"
+    When I get all events for project "project 1"
+    Then I should see an activity for "user 1" and "project 1" at order 4
+
+  Scenario: Only get user's latest events
+    Given I am user "user 1"
+    And there is an activity for "user 1" and "project 1" at order 2
+    When I get all events for project "project 1"
+    Then I should receive 2 events
+    And I should see an activity for "user 1" and "project 1" at order 4
