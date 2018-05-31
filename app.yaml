@@ -1,9 +1,0 @@
-entrypoint: bundle exec rackup --port $PORT
-env: flex
-runtime: ruby
-
-env_variables:
-  SECRET_KEY_BASE: eee208a0abcd50493821d7f97ff59e62f57bd620db718db06fdbe06813e91dd2fc02829d4a5d4cfe8c51e2a81c18d755ac15aeb1dd7d672eefea8fb0a5b47fc8
-
-beta_settings:
-  cloud_sql_instances: teamscope-202221:us-central1:teamscope

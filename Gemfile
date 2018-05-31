@@ -58,4 +58,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'pg', '~> 1.0'
 
 # Added at 2018-04-25 15:23:43 -0700 by anju:
-gem 'appengine', '~> 0.4.5'
+# gem 'appengine', '~> 0.4.5'

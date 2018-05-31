@@ -21,18 +21,18 @@ test: &test
   database: db/test.sqlite3
 
 # use postgres in Google Cloud
-# production:
-#  <<: *default
-#  database: db/production.sqlite3
 production:
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  timeout: 5000
-  username: "postgres"
-  password: "2eOdI440e7tqKvr7"
-  database: "data-model"
-  host:   "/cloudsql/teamscope-202221:us-central1:teamscope"
+  <<: *default
+  database: db/production.sqlite3
+#production:
+#  adapter: postgresql
+#  encoding: unicode
+#  pool: 5
+#  timeout: 5000
+#  username: "postgres"
+#  password: "2eOdI440e7tqKvr7"
+#  database: "data-model"
+#  host:   "/cloudsql/teamscope-202221:us-central1:teamscope"
 
 
 cucumber:

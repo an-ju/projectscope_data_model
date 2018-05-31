@@ -70,13 +70,13 @@ Then /^I should see the new event added to database$/ do
   expect(Event.count).to eql(1)
 end
 
-Then /^I should see (\d+) events in the database of (.*)$/ do |num_proj, project|
+Then /^I should see (\d+) events in the database of (.+)$/ do |num_proj, project|
   num_proj = num_proj.to_i
   p = Project.where(specifier: project).first
   expect(p.events.length).eql? num_proj
 end
 
-And /^event (\d+) of (.*) should have priority (\d+)$/ do |id, project, od|
+And /^event (\d+) of (.+) should have priority (\d+)$/ do |id, project, od|
   p = Project.where(specifier: project).first
   expect(p.events[id.to_i - 1].order).to eql(od.to_i)
 end
